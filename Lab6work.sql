@@ -43,31 +43,28 @@ SELECT c.name,c.priority,d.name,s.id,s.amount from client as c join dealer as d 
 
 --select avg(sell.amount), max(sell.amount) from sell group by sell.date
 
-select count(distinct(client_id)), avg(sell.amount), max(sell.amount) from sell group by sell.date
+create view Av as select count(distinct(client_id)), avg(sell.amount), max(sell.amount) from sell group by sell.date
 
 --b)
 
-select sum(sell.amount) from sell group by sell.date order by sum(sell.amount) desc limit 5
+create view Bv as select sum(sell.amount) from sell group by sell.date order by sum(sell.amount) desc limit 5
 
 --c)
 
-select count(dealer_id), avg(sell.amount), sum(sell.amount), dealer_id from sell group by dealer_id
+create view Cv as select count(dealer_id), avg(sell.amount), sum(sell.amount), dealer_id from sell group by dealer_id
 
 --d)
 
-Select d.location, sum((sell.amount)*d.charge) as "commission" from sell join dealer d on d.id = sell.dealer_id group by d.location
+create view Dv as Select d.location, sum((sell.amount)*d.charge) as "commission" from sell join dealer d on d.id = sell.dealer_id group by d.location
 
 --e)
 
-Select d.location, count(dealer_id), avg((sell.amount)*d.charge), sum((sell.amount)*d.charge) as "commission" from sell join dealer d on d.id = sell.dealer_id group by d.location
+create view Ev as Select d.location, count(dealer_id), avg((sell.amount)*d.charge), sum((sell.amount)*d.charge) as "commission" from sell join dealer d on d.id = sell.dealer_id group by d.location
 
 --f)
 
-Select c.city, count(c.city), avg(sell.amount), sum(sell.amount) from sell join client c on c.id = sell.client_id group by c.city
+create view Fv as Select c.city, count(c.city), avg(sell.amount), sum(sell.amount) from sell join client c on c.id = sell.client_id group by c.city
 
 --g)
-select * from sell
-
-Select d.location, sum(sell.amount) from sell join dealer d on d.id = sell.dealer_id group by d.location
-
-Select c.city, sum(sell.amount) from sell join client c on c.id = sell.client_id group by c.city
+create view Gv as SELECT c.city from client as c join sell s on c.id = s.client_id where c.priority > s.amount;
+select * from view7;
