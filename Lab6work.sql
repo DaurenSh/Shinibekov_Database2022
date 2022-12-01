@@ -1,7 +1,7 @@
 --1)
 
 --a)
-SELECT * FROM dealer FULL JOIN client c on dealer.id = c.dealer_id
+SELECT * FROM dealer FULL CROSS JOIN client c on dealer.id = c.dealer_id
 
 --b)
 
@@ -17,24 +17,25 @@ SELECT sell.id, sell.amount, c.name, c.city from sell join client c on c.id = se
 
 --e)
 
---select * from dealer where dealer.id not in (SELECT dealer_id from client group by client.dealer_id having count(client.dealer_id)>0)
-
---Select * from sell full outer join client c on sell.client_id = c.id join dealer d on d.id = sell.dealer_id where sell.dealer_id not in (SELECT dealer_id from client group by client.dealer_id having count(client.dealer_id)>0) or not in (SELECT dealer_id from client group by client.dealer_id having count(client.dealer_id)=0)    --c.dealer_id is null or d.id is null
-
+SELECT Count(d.id) from dealer as d left outer join
+    client as c on d.id = c.dealer_id group by d.id,d.name,d.location,d.charge,c.id,c.name having Count(d.id) > 2;
 --f)
 
 Select c.name, c.city, d.name, (sell.amount)*d.charge as "commission" from sell join client c on c.id = sell.client_id join dealer d on d.id = sell.dealer_id
 
 --g)
 
---Select c.name, c.city, d.name, (sell.amount)*d.charge as "commission" from sell join client c on c.id = sell.client_id join dealer d on d.id = sell.dealer_id where d.charge>0.12 --Азамата нет
+Select c.name, c.city, d.name, (sell.amount)*d.charge as "commission" from sell join client c on c.id = sell.client_id join dealer d on d.id = sell.dealer_id where d.charge>0.12 --Азамата нет
 
 --h)
 
---Select * from sell full outer join client c on sell.client_id = c.id join dealer d on d.id = sell.dealer_id where sell.dealer_id not in (SELECT dealer_id from client group by client.dealer_id having count(client.dealer_id)>0) or (select sell.dealer_id where amount>2000) --or (SELECT dealer_id from client group by client.dealer_id having count(client.dealer_id)=0)
+SELECT c.name,c.city,s.id,s.date,s.amount,d.name,d.charge from client as c inner join dealer as d on d.id = c.dealer_id
+inner join sell s on c.id = s.client_id;
 
 --i)
 
+SELECT c.name,c.priority,d.name,s.id,s.amount from client as c join dealer as d on d.id = c.dealer_id join
+    sell as s on c.id = s.client_id where s.amount > 2000 and c.priority is not null;
 
 --2)
 
