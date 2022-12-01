@@ -45,25 +45,37 @@ SELECT c.name,c.priority,d.name,s.id,s.amount from client as c join dealer as d 
 
 create view Av as select count(distinct(client_id)), avg(sell.amount), max(sell.amount) from sell group by sell.date
 
+select * from Av
+
 --b)
 
 create view Bv as select sum(sell.amount) from sell group by sell.date order by sum(sell.amount) desc limit 5
+
+select * from Bv
 
 --c)
 
 create view Cv as select count(dealer_id), avg(sell.amount), sum(sell.amount), dealer_id from sell group by dealer_id
 
+select * from Cv
+
 --d)
 
 create view Dv as Select d.location, sum((sell.amount)*d.charge) as "commission" from sell join dealer d on d.id = sell.dealer_id group by d.location
+
+select * from Dv
 
 --e)
 
 create view Ev as Select d.location, count(dealer_id), avg((sell.amount)*d.charge), sum((sell.amount)*d.charge) as "commission" from sell join dealer d on d.id = sell.dealer_id group by d.location
 
+select * from Ev
+
 --f)
 
 create view Fv as Select c.city, count(c.city), avg(sell.amount), sum(sell.amount) from sell join client c on c.id = sell.client_id group by c.city
+
+select * from Fv
 
 --g)
 create view Gv as SELECT c.city from client as c join sell s on c.id = s.client_id where c.priority > s.amount;
