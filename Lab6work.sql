@@ -67,4 +67,4 @@ create view Fv as Select c.city, count(c.city), avg(sell.amount), sum(sell.amoun
 
 --g)
 create view Gv as SELECT c.city from client as c join sell s on c.id = s.client_id where c.priority > s.amount;
-select * from view7;
+select * from Gv;
